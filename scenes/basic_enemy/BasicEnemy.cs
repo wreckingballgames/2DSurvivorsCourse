@@ -1,30 +1,33 @@
 using Godot;
 using System;
 
-public partial class GameCamera : Camera2D
+public partial class BasicEnemy : CharacterBody2D
 {
-	private Vector2 targetPosition = Vector2.Zero;
+	const float MAX_SPEED = 75.0F;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		MakeCurrent();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		AcquireTarget();
-		GlobalPosition = GlobalPosition.Lerp(targetPosition, 1.0F - (float)Math.Exp(-delta * 10.0));
+		var direction = GetDirectionToPlayer();
+		Velocity = direction * MAX_SPEED;
+		MoveAndSlide();
 	}
 
-	public void AcquireTarget()
+	public Vector2 GetDirectionToPlayer()
 	{
 		var playerNode = GetTree().GetFirstNodeInGroup("player") as Node2D;
 		if (playerNode != null)
 		{
-			var player = playerNode;
-			targetPosition = player.GlobalPosition;
+			return GlobalPosition.DirectionTo(playerNode.GlobalPosition);
+		}
+		else
+		{
+			return Vector2.Zero;
 		}
 	}
 }
