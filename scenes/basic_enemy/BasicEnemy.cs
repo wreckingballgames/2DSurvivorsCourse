@@ -4,10 +4,13 @@ using System;
 public partial class BasicEnemy : CharacterBody2D
 {
 	const float MAX_SPEED = 75.0F;
+	Area2D area2D;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		area2D = GetNode<Area2D>("%Area2D");
+		area2D.AreaEntered += (Area2D area) => OnArea2DAreaEntered(area);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -29,5 +32,10 @@ public partial class BasicEnemy : CharacterBody2D
 		{
 			return Vector2.Zero;
 		}
+	}
+
+	public void OnArea2DAreaEntered(Area2D area)
+	{
+		QueueFree();
 	}
 }

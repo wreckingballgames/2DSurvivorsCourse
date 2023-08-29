@@ -14,7 +14,7 @@ public partial class SwordAbilityController : Node
 	{
 		timer = GetNode("%Timer") as Timer;
 
-		timer.Connect("timeout", Callable.From(() => OnTimerTimeout())); // Use of lambdas to make callables in C#; VERY IMPORTANT KNOWLEDGE
+		timer.Timeout += () => OnTimerTimeout();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -31,10 +31,10 @@ public partial class SwordAbilityController : Node
 		}
 
 		// This whole section was a nightmare for a C# neophyte. Check it thoroughly, see if there's a better way, and learn from this.
-		var enemiesAsNode = GetTree().GetNodesInGroup("enemy");
-		var enemies = new Godot.Collections.Array<Node2D>();
-		var enemiesSwap = new Godot.Collections.Array<Node2D>();
-
+		var enemiesAsNode = GetTree().GetNodesInGroup("enemy"); // Get a Godot collection (expensive in C#)
+		// var enemies = new Godot.Collections.Array<Node2D>(); // Original code; working with C# collections is far more performant
+		var enemies = new System.Collections.Generic.List<Node2D>();
+		var enemiesSwap = new System.Collections.Generic.List<Node2D>();
 
 		foreach (Node enemy in enemiesAsNode)
 		{
@@ -57,7 +57,11 @@ public partial class SwordAbilityController : Node
 		enemies.AddRange(enemiesSwap);
 
 		swordAbilityInstance = swordAbilityScene.Instantiate() as Node2D;
-		swordAbilityInstance.GlobalPosition = enemies[0].GlobalPosition;
 		player.GetParent().AddChild(swordAbilityInstance);
+		swordAbilityInstance.GlobalPosition = enemies[0].GlobalPosition;
+
+		swordAbilityInstance.GlobalPosition += Vector2.Right.Rotated((float)GD.RandRange(0, Math.Tau)) * 4;
+		var enemyDirection = enemies[0].GlobalPosition - swordAbilityInstance.GlobalPosition;
+		swordAbilityInstance.Rotation = enemyDirection.Angle();
 	}
 }
