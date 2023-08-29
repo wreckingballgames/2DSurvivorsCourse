@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gomnv"]
 size = Vector2(14, 13)
 
-[node name="BasicEnemy" type="CharacterBody2D"]
+[node name="BasicEnemy" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 0
 motion_mode = 1
 script = ExtResource("1_pqxuw")
@@ -18,3 +18,5 @@ texture = ExtResource("2_gwc6i")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2.5)
 shape = SubResource("RectangleShape2D_gomnv")
+
+[node name="Position" type="Node2D" parent="."]
