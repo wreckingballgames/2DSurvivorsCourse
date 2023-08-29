@@ -3,7 +3,8 @@ using System;
 
 public partial class BasicEnemy : CharacterBody2D
 {
-	const float MAX_SPEED = 75.0F;
+	[Export]
+	public float maxSpeed = 35.0F;
 	Area2D area2D;
 
 	// Called when the node enters the scene tree for the first time.
@@ -17,7 +18,7 @@ public partial class BasicEnemy : CharacterBody2D
 	public override void _Process(double delta)
 	{
 		var direction = GetDirectionToPlayer();
-		Velocity = direction * MAX_SPEED;
+		Velocity = direction * maxSpeed;
 		MoveAndSlide();
 	}
 

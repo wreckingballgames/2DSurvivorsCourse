@@ -3,19 +3,19 @@ using System;
 
 public partial class Player : CharacterBody2D
 {
-	public const float MAX_SPEED = 200.0F;
-
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-	}
+	[Export]
+	public float maxSpeed = 125.0F;
+	[Export]
+	public float accelerationSmoothing = 25.0F;
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
 		var movementVector = GetMovementVector();
 
-		Velocity = movementVector * MAX_SPEED;
+		var targetVelocity = movementVector * maxSpeed;
+
+		Velocity = Velocity.Lerp(targetVelocity, 1.0F - (float)Math.Exp(-delta * accelerationSmoothing));
 
 		MoveAndSlide();
 	}
