@@ -17,11 +17,6 @@ public partial class SwordAbilityController : Node
 		timer.Timeout += () => OnTimerTimeout();
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
-
 	public void OnTimerTimeout()
 	{
 		var player = GetTree().GetFirstNodeInGroup("player") as Node2D;
