@@ -6,7 +6,9 @@ public partial class SwordAbilityController : Node
 	const float MAX_RANGE = 150.0F;
 	[Export]
 	PackedScene swordAbilityScene;
-	Node2D swordAbilityInstance;
+	[Export]
+	float damage = 5.0F;
+	SwordAbility swordAbilityInstance;
 	Timer timer;
 
 	// Called when the node enters the scene tree for the first time.
@@ -51,8 +53,9 @@ public partial class SwordAbilityController : Node
 		enemies.Clear();
 		enemies.AddRange(enemiesSwap);
 
-		swordAbilityInstance = swordAbilityScene.Instantiate() as Node2D;
+		swordAbilityInstance = swordAbilityScene.Instantiate() as SwordAbility;
 		player.GetParent().AddChild(swordAbilityInstance);
+		swordAbilityInstance.hitbox.damage = damage;
 		swordAbilityInstance.GlobalPosition = enemies[0].GlobalPosition;
 
 		swordAbilityInstance.GlobalPosition += Vector2.Right.Rotated((float)GD.RandRange(0, Math.Tau)) * 4;
