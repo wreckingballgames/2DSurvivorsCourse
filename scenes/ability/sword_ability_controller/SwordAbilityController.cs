@@ -35,8 +35,7 @@ public partial class SwordAbilityController : Node
 
 		foreach (Node enemy in enemiesAsNode)
 		{
-			var enemyAsNode2D = enemy as Node2D;
-			enemies.Add(enemyAsNode2D);
+			enemies.Add(enemy as Node2D);
 		}
 
 		enemiesSwap.AddRange(System.Linq.Enumerable.Where<Node2D>(enemies, (Node2D enemy) => enemy.GlobalPosition.DistanceSquaredTo(player.GlobalPosition) < Math.Pow(MAX_RANGE, 2)));
