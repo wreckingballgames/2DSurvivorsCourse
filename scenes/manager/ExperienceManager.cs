@@ -5,6 +5,8 @@ public partial class ExperienceManager : Node
 {
 	[Signal]
 	public delegate void ExperienceUpdatedEventHandler(float currentExperience, float targetExperience);
+	[Signal]
+	public delegate void LeveledUpEventHandler(int newLevel);
 
 	const float TARGET_EXPERIENCE_GROWTH = 5.0F;
 
@@ -29,6 +31,7 @@ public partial class ExperienceManager : Node
 			targetExperience += TARGET_EXPERIENCE_GROWTH;
 			currentExperience = 0;
 			EmitSignal(SignalName.ExperienceUpdated, currentExperience, targetExperience);
+			EmitSignal(SignalName.LeveledUp, currentLevel);
 		}
 	}
 

@@ -28,6 +28,8 @@ public partial class SwordAbilityController : Node
 		}
 
 		// This whole section was a nightmare for a C# neophyte. Check it thoroughly, see if there's a better way, and learn from this.
+		// For one thing, as in my own game jam game, I would use an enemy detection zone to just check those enemies which are
+		// in range, and add them to a C# collection one at a time
 		var enemiesAsNode = GetTree().GetNodesInGroup("enemy"); // Get a Godot collection (expensive in C#)
 		// var enemies = new Godot.Collections.Array<Node2D>(); // Original code; working with C# collections is far more performant
 		var enemies = new System.Collections.Generic.List<Node2D>();
