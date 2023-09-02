@@ -5,8 +5,10 @@ public partial class HealthComponent : Node
 {
 	[Signal]
 	public delegate void DiedEventHandler();
+
 	[Export]
 	float maxHealth = 10.0F;
+	
 	float currentHealth;
 
 	public override void _Ready()

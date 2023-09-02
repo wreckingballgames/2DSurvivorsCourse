@@ -12,7 +12,7 @@ public partial class ExperienceManager : Node
 
 	float currentExperience = 0.0F;
 	int currentLevel = 1;
-	float targetExperience = 5.0F;
+	float targetExperience = 1.0F;
 	GameEvents gameEvents;
 
 	public override void _Ready()

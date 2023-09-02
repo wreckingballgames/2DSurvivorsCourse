@@ -4,9 +4,9 @@ using System;
 public partial class AbilityUpgrade : Resource
 {
 	[Export]
-	public string id;
+	public string ID { get; set; }
 	[Export]
-	string name;
+	public string Name { get; set; }
 	[Export(PropertyHint.MultilineText)]
-	string description;
+	public string Description { get; set; }
 }
