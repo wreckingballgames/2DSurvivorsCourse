@@ -38,6 +38,7 @@ public partial class UpgradeManager : Node
 		var upgradeScreenInstance = UpgradeScreenScene.Instantiate() as UpgradeScreen;
 		AddChild(upgradeScreenInstance);
 		upgradeScreenInstance.SetAbilityUpgrades(chosenUpgradeAsList);
+		upgradeScreenInstance.UpgradeSelected += (AbilityUpgrade upgrade) => OnUpgradeSelected(upgrade);
 	}
 
 	public void ApplyUpgrade(AbilityUpgrade upgrade)
@@ -55,5 +56,10 @@ public partial class UpgradeManager : Node
 			int quantitySwap = (int)currentUpgrades[upgrade.ID]["quantity"];
 			currentUpgrades[upgrade.ID]["quantity"] = quantitySwap + 1;
 		}
+	}
+
+	public void OnUpgradeSelected(AbilityUpgrade upgrade)
+	{
+		ApplyUpgrade(upgrade);
 	}
 }

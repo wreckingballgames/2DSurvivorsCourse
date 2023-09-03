@@ -4,6 +4,6 @@
 
 [resource]
 script = ExtResource("1_dxvrx")
-ID = ""
+ID = "sword_rate"
 Name = "Sword Quickness"
 Description = "Increases sword attack rate by 10%."

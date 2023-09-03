@@ -3,6 +3,9 @@ using System;
 
 public partial class AbilityUpgradeCard : PanelContainer
 {
+	[Signal]
+	public delegate void SelectedEventHandler();
+
 	// I want to start using automatic properties and considering the difference between fields and properties in my code. It starts here
 	public Label NameLabel { get; set; }
 	public Label DescriptionLabel { get; set; }
@@ -12,6 +15,7 @@ public partial class AbilityUpgradeCard : PanelContainer
 	{
 		NameLabel = GetNode<Label>("%NameLabel");
 		DescriptionLabel = GetNode<Label>("%DescriptionLabel");
+		GuiInput += (InputEvent inputEvent) => OnGuiInput(inputEvent);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -23,5 +27,13 @@ public partial class AbilityUpgradeCard : PanelContainer
 	{
 		NameLabel.Text = upgrade.Name;
 		DescriptionLabel.Text = upgrade.Description;
+	}
+
+	public void OnGuiInput(InputEvent inputEvent)
+	{
+		if (inputEvent.IsActionPressed("left_click"))
+		{
+			EmitSignal(SignalName.Selected);
+		}
 	}
 }

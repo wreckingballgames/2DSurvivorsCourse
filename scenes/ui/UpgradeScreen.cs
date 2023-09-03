@@ -3,6 +3,9 @@ using System;
 
 public partial class UpgradeScreen : CanvasLayer
 {
+	[Signal]
+	public delegate void UpgradeSelectedEventHandler(AbilityUpgrade upgrade);
+
 	[Export]
 	public PackedScene UpgradeCardScene { get; set; }
 
@@ -27,6 +30,14 @@ public partial class UpgradeScreen : CanvasLayer
 			var cardInstance = UpgradeCardScene.Instantiate() as AbilityUpgradeCard;
 			cardContainer.AddChild(cardInstance);
 			cardInstance.SetAbilityUpgrade(upgrade);
+			cardInstance.Selected += () => OnUpgradeSelected(upgrade);
 		}
+	}
+
+	public void OnUpgradeSelected(AbilityUpgrade upgrade)
+	{
+		EmitSignal(SignalName.UpgradeSelected, upgrade);
+		GetTree().Paused = false;
+		QueueFree();
 	}
 }
