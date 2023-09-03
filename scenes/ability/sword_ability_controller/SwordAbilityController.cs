@@ -4,19 +4,28 @@ using System;
 public partial class SwordAbilityController : Node
 {
 	const float MAX_RANGE = 150.0F;
+
 	[Export]
 	PackedScene swordAbilityScene;
 	[Export]
 	float damage = 5.0F;
+	[Export]
+	public double BaseWaitTime { get; set; }
+
 	SwordAbility swordAbilityInstance;
 	Timer timer;
+	GameEvents gameEvents;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		timer = GetNode("%Timer") as Timer;
+		gameEvents = GetNode("/root/GameEvents") as GameEvents;
+
+		BaseWaitTime = timer.WaitTime;
 
 		timer.Timeout += () => OnTimerTimeout();
+		gameEvents.AbilityUpgradeAdded += (AbilityUpgrade upgrade, Godot.Collections.Dictionary<string, Godot.Collections.Dictionary<string, Godot.Variant>> currentUpgrades) => OnAbilityUpgradeAdded(upgrade, currentUpgrades);
 	}
 
 	public void OnTimerTimeout()
@@ -62,5 +71,27 @@ public partial class SwordAbilityController : Node
 		swordAbilityInstance.GlobalPosition += Vector2.Right.Rotated((float)GD.RandRange(0, Math.Tau)) * 4;
 		var enemyDirection = enemies[0].GlobalPosition - swordAbilityInstance.GlobalPosition;
 		swordAbilityInstance.Rotation = enemyDirection.Angle();
+	}
+
+	public void OnAbilityUpgradeAdded(AbilityUpgrade upgrade, Godot.Collections.Dictionary<string, Godot.Collections.Dictionary<string, Godot.Variant>> currentUpgrades)
+	{
+		if (upgrade.ID != "sword_rate")
+		{
+			return;
+		}
+
+		var upgradeQuantity = (double)currentUpgrades["sword_rate"]["quantity"];
+
+		var percentReduction = upgradeQuantity * .5; // Get 10 percent of quantity
+		var newWaitTime = Mathf.Abs(BaseWaitTime * (1 - percentReduction)); // New wait is a percentage of BaseWaitTime)
+		BaseWaitTime = Mathf.Min(BaseWaitTime, newWaitTime); // Prevent negative wait time values
+
+		if (BaseWaitTime == 0)
+		{
+			BaseWaitTime = 0.1; // Prevent wait time of zero
+		}
+
+		timer.WaitTime = BaseWaitTime;
+		timer.Start();
 	}
 }

@@ -18,11 +18,6 @@ public partial class UpgradeScreen : CanvasLayer
 		GetTree().Paused = true;
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
-
 	public void SetAbilityUpgrades(System.Collections.Generic.List<AbilityUpgrade> upgrades)
 	{
 		foreach (AbilityUpgrade upgrade in upgrades)

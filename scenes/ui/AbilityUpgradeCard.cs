@@ -17,12 +17,7 @@ public partial class AbilityUpgradeCard : PanelContainer
 		DescriptionLabel = GetNode<Label>("%DescriptionLabel");
 		GuiInput += (InputEvent inputEvent) => OnGuiInput(inputEvent);
 	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
- 
+	
 	public void SetAbilityUpgrade(AbilityUpgrade upgrade)
 	{
 		NameLabel.Text = upgrade.Name;

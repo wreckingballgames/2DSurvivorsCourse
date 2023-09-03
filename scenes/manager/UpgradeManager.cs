@@ -12,15 +12,19 @@ public partial class UpgradeManager : Node
 	public PackedScene UpgradeScreenScene { get; set; }
 
 	// Dictionary of dictionaries; don't get mixed up accessing all the members buried inside. Can I rework this?
-	System.Collections.Generic.Dictionary<String, System.Collections.Generic.Dictionary<String, Godot.Variant>> currentUpgrades;
+	Godot.Collections.Dictionary<string, Godot.Collections.Dictionary<string, Godot.Variant>> currentUpgrades;
+	GameEvents gameEvents;
 
     public override void _Ready()
     {
-		currentUpgrades = new System.Collections.Generic.Dictionary<String, System.Collections.Generic.Dictionary<String, Godot.Variant>>{};
+		// currentUpgrades = new System.Collections.Generic.Dictionary<String, System.Collections.Generic.Dictionary<String, Godot.Variant>>{};
+		currentUpgrades = new Godot.Collections.Dictionary<string, Godot.Collections.Dictionary<string, Godot.Variant>>();
         if (ExperienceManager != null)
 		{
 			ExperienceManager.LeveledUp += (int newLevel) => OnLeveledUp(newLevel);
 		}
+
+		gameEvents = GetNode("/root/GameEvents") as GameEvents;
     }
 
 	public void OnLeveledUp(int newLevel)
@@ -46,7 +50,7 @@ public partial class UpgradeManager : Node
 		var hasUpgrade = currentUpgrades.ContainsKey(upgrade.ID);
 		if (hasUpgrade == false)
 		{
-			var newDictionary = new System.Collections.Generic.Dictionary<String, Godot.Variant>{};
+			var newDictionary = new Godot.Collections.Dictionary<string, Godot.Variant>{};
 			newDictionary.Add("resource", upgrade);
 			newDictionary.Add("quantity", 1);
 			currentUpgrades[upgrade.ID] = newDictionary;
@@ -56,6 +60,8 @@ public partial class UpgradeManager : Node
 			int quantitySwap = (int)currentUpgrades[upgrade.ID]["quantity"];
 			currentUpgrades[upgrade.ID]["quantity"] = quantitySwap + 1;
 		}
+
+		gameEvents.EmitSignal(GameEvents.SignalName.AbilityUpgradeAdded, upgrade, currentUpgrades);
 	}
 
 	public void OnUpgradeSelected(AbilityUpgrade upgrade)
