@@ -10,10 +10,10 @@ public partial class ExperienceManager : Node
 
 	const float TARGET_EXPERIENCE_GROWTH = 5.0F;
 
-	float currentExperience = 0.0F;
-	int currentLevel = 1;
-	float targetExperience = 1.0F;
-	GameEvents gameEvents;
+	private float currentExperience = 0.0F;
+	private int currentLevel = 1;
+	private float targetExperience = 1.0F;
+	private GameEvents gameEvents;
 
 	public override void _Ready()
 	{

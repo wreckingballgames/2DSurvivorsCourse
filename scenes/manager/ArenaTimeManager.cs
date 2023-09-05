@@ -3,7 +3,7 @@ using System;
 
 public partial class ArenaTimeManager : Node
 {
-	Timer timer;
+	private Timer timer;
 
 	public override void _Ready()
 	{

@@ -7,9 +7,9 @@ public partial class HealthComponent : Node
 	public delegate void DiedEventHandler();
 
 	[Export]
-	float maxHealth = 10.0F;
+	public float maxHealth = 10.0F;
 	
-	float currentHealth;
+	private float currentHealth;
 
 	public override void _Ready()
 	{

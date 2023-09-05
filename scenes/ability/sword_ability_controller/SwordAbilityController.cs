@@ -6,15 +6,15 @@ public partial class SwordAbilityController : Node
 	const float MAX_RANGE = 150.0F;
 
 	[Export]
-	PackedScene swordAbilityScene;
+	public PackedScene swordAbilityScene;
 	[Export]
-	float damage = 5.0F;
+	public float damage = 5.0F;
 	[Export]
 	public double BaseWaitTime { get; set; }
 
-	SwordAbility swordAbilityInstance;
-	Timer timer;
-	GameEvents gameEvents;
+	private SwordAbility swordAbilityInstance;
+	private Timer timer;
+	private GameEvents gameEvents;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()

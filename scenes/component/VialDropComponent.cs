@@ -4,11 +4,11 @@ using System;
 public partial class VialDropComponent : Node
 {
 	[Export(PropertyHint.Range, "0, 1")]
-	float dropPercent = 0.5F;
+	public float dropPercent = 0.5F;
 	[Export]
-	HealthComponent healthComponent;
+	public HealthComponent healthComponent;
 	[Export]
-	PackedScene vialScene;
+	public PackedScene vialScene;
 
     public override void _Ready()
     {

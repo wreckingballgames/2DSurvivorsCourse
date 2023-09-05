@@ -5,7 +5,7 @@
 
 [node name="EnemyManager" type="Node"]
 script = ExtResource("1_t2tlj")
-basicEnemyScene = ExtResource("2_iibje")
+BasicEnemyScene = ExtResource("2_iibje")
 
 [node name="Timer" type="Timer" parent="."]
 unique_name_in_owner = true

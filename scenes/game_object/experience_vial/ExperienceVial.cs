@@ -3,8 +3,8 @@ using System;
 
 public partial class ExperienceVial : Node2D
 {
-	Area2D area_2d;
-	GameEvents gameEvents;
+	private Area2D area_2d;
+	private GameEvents gameEvents;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()

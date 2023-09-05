@@ -3,12 +3,12 @@ using System;
 
 public partial class DebugManager : Node
 {	
-	Label fpsLabel;
-	Label enemyCountLabel;
+	private Label FPSLabel;
+	private Label enemyCountLabel;
 
 	public override void _Ready()
 	{
-		fpsLabel = GetNode("%FPSLabel") as Label;
+		FPSLabel = GetNode("%FPSLabel") as Label;
 		enemyCountLabel = GetNode("%EnemyCountLabel") as Label;
 	}
 
@@ -22,7 +22,7 @@ public partial class DebugManager : Node
 			enemyCount = enemies.Count;
 		}
 
-		fpsLabel.Text = $"FPS: {fps}";
+		FPSLabel.Text = $"FPS: {fps}";
 		enemyCountLabel.Text = $"Enemy Count: {enemyCount}";
 	}
 }

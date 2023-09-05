@@ -5,7 +5,8 @@ public partial class ExperienceBar : CanvasLayer
 {
 	[Export]
 	ExperienceManager experienceManager;
-	ProgressBar progressBar;
+
+	private ProgressBar progressBar;
 
     public override void _Ready()
     {

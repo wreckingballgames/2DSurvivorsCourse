@@ -4,7 +4,7 @@ using System;
 public partial class HurtboxComponent : Area2D
 {
 	[Export]
-	HealthComponent healthComponent;
+	public HealthComponent healthComponent;
 
     public override void _Ready()
     {

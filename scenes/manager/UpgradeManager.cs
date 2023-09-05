@@ -12,8 +12,8 @@ public partial class UpgradeManager : Node
 	public PackedScene UpgradeScreenScene { get; set; }
 
 	// Dictionary of dictionaries; don't get mixed up accessing all the members buried inside. Can I rework this?
-	Godot.Collections.Dictionary<string, Godot.Collections.Dictionary<string, Godot.Variant>> currentUpgrades;
-	GameEvents gameEvents;
+	private Godot.Collections.Dictionary<string, Godot.Collections.Dictionary<string, Godot.Variant>> currentUpgrades;
+	private GameEvents gameEvents;
 
     public override void _Ready()
     {

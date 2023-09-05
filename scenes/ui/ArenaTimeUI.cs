@@ -4,8 +4,9 @@ using System;
 public partial class ArenaTimeUI : CanvasLayer
 {
 	[Export]
-	ArenaTimeManager arenaTimeManager;
-	Label label;
+	public ArenaTimeManager arenaTimeManager;
+
+	private Label label;
 
     public override void _Ready()
     {
