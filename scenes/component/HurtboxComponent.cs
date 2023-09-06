@@ -24,6 +24,6 @@ public partial class HurtboxComponent : Area2D
 		}
 
 		HitboxComponent hitbox = area as HitboxComponent;
-		healthComponent.Damage(hitbox.damage);
+		healthComponent.Damage(hitbox.Damage);
 	}
 }

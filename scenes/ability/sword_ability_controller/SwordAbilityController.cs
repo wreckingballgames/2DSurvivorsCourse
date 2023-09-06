@@ -10,7 +10,7 @@ public partial class SwordAbilityController : Node
 	[Export]
 	public float damage = 5.0F;
 	[Export]
-	public double BaseWaitTime { get; set; }
+	public double baseWaitTime;
 
 	private SwordAbility swordAbilityInstance;
 	private Timer timer;
@@ -22,7 +22,7 @@ public partial class SwordAbilityController : Node
 		timer = GetNode("%Timer") as Timer;
 		gameEvents = GetNode("/root/GameEvents") as GameEvents;
 
-		BaseWaitTime = timer.WaitTime;
+		baseWaitTime = timer.WaitTime;
 
 		timer.Timeout += () => OnTimerTimeout();
 		gameEvents.AbilityUpgradeAdded += (AbilityUpgrade upgrade, Godot.Collections.Dictionary<string, Godot.Collections.Dictionary<string, Godot.Variant>> currentUpgrades) => OnAbilityUpgradeAdded(upgrade, currentUpgrades);
@@ -65,7 +65,7 @@ public partial class SwordAbilityController : Node
 
 		swordAbilityInstance = swordAbilityScene.Instantiate() as SwordAbility;
 		player.GetParent().AddChild(swordAbilityInstance);
-		swordAbilityInstance.hitbox.damage = damage;
+		swordAbilityInstance.Hitbox.Damage = damage;
 		swordAbilityInstance.GlobalPosition = enemies[0].GlobalPosition;
 
 		swordAbilityInstance.GlobalPosition += Vector2.Right.Rotated((float)GD.RandRange(0, Math.Tau)) * 4;
@@ -83,15 +83,15 @@ public partial class SwordAbilityController : Node
 		var upgradeQuantity = (double)currentUpgrades["sword_rate"]["quantity"];
 
 		var percentReduction = upgradeQuantity * .5; // Get 10 percent of quantity
-		var newWaitTime = Mathf.Abs(BaseWaitTime * (1 - percentReduction)); // New wait is a percentage of BaseWaitTime)
-		BaseWaitTime = Mathf.Min(BaseWaitTime, newWaitTime); // Prevent negative wait time values
+		var newWaitTime = Mathf.Abs(baseWaitTime * (1 - percentReduction)); // New wait is a percentage of baseWaitTime)
+		baseWaitTime = Mathf.Min(baseWaitTime, newWaitTime); // Prevent negative wait time values
 
-		if (BaseWaitTime == 0)
+		if (baseWaitTime == 0)
 		{
-			BaseWaitTime = 0.1; // Prevent wait time of zero
+			baseWaitTime = 0.1; // Prevent wait time of zero
 		}
 
-		timer.WaitTime = BaseWaitTime;
+		timer.WaitTime = baseWaitTime;
 		timer.Start();
 	}
 }

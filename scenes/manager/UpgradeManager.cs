@@ -4,12 +4,12 @@ using System;
 public partial class UpgradeManager : Node
 {
 	[Export]
-	public Godot.Collections.Array<AbilityUpgrade> UpgradePool { get; set; }
-	// public System.Collections.Generic.List<AbilityUpgrade> UpgradePool { get; set; } // Does not work because only Variant-compatible types are able to be exported
+	public Godot.Collections.Array<AbilityUpgrade> upgradePool;
+	// public System.Collections.Generic.List<AbilityUpgrade> upgradePool { get; set; } // Does not work because only Variant-compatible types are able to be exported
 	[Export]
-	public ExperienceManager ExperienceManager { get; set; }
+	public ExperienceManager experienceManager;
 	[Export]
-	public PackedScene UpgradeScreenScene { get; set; }
+	public PackedScene upgradeScreenScene;
 
 	// Dictionary of dictionaries; don't get mixed up accessing all the members buried inside. Can I rework this?
 	private Godot.Collections.Dictionary<string, Godot.Collections.Dictionary<string, Godot.Variant>> currentUpgrades;
@@ -19,9 +19,9 @@ public partial class UpgradeManager : Node
     {
 		// currentUpgrades = new System.Collections.Generic.Dictionary<String, System.Collections.Generic.Dictionary<String, Godot.Variant>>{};
 		currentUpgrades = new Godot.Collections.Dictionary<string, Godot.Collections.Dictionary<string, Godot.Variant>>();
-        if (ExperienceManager != null)
+        if (experienceManager != null)
 		{
-			ExperienceManager.LeveledUp += (int newLevel) => OnLeveledUp(newLevel);
+			experienceManager.LeveledUp += (int newLevel) => OnLeveledUp(newLevel);
 		}
 
 		gameEvents = GetNode("/root/GameEvents") as GameEvents;
@@ -29,7 +29,7 @@ public partial class UpgradeManager : Node
 
 	public void OnLeveledUp(int newLevel)
 	{
-		AbilityUpgrade chosenUpgrade = UpgradePool.PickRandom();
+		AbilityUpgrade chosenUpgrade = upgradePool.PickRandom();
 		if (chosenUpgrade == null)
 		{
 			return;
@@ -39,7 +39,7 @@ public partial class UpgradeManager : Node
 		var chosenUpgradeAsList = new System.Collections.Generic.List<AbilityUpgrade>();
 		chosenUpgradeAsList.Add(chosenUpgrade);
 
-		var upgradeScreenInstance = UpgradeScreenScene.Instantiate() as UpgradeScreen;
+		var upgradeScreenInstance = upgradeScreenScene.Instantiate() as UpgradeScreen;
 		AddChild(upgradeScreenInstance);
 		upgradeScreenInstance.SetAbilityUpgrades(chosenUpgradeAsList);
 		upgradeScreenInstance.UpgradeSelected += (AbilityUpgrade upgrade) => OnUpgradeSelected(upgrade);

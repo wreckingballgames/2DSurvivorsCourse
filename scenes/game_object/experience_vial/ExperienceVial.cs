@@ -3,7 +3,7 @@ using System;
 
 public partial class ExperienceVial : Node2D
 {
-	private Area2D area_2d;
+	private Area2D area_2D;
 	private GameEvents gameEvents;
 
 	// Called when the node enters the scene tree for the first time.
@@ -11,8 +11,8 @@ public partial class ExperienceVial : Node2D
 	{
 		gameEvents = GetNode("/root/GameEvents") as GameEvents;
 
-		area_2d = GetNode("%Area2D") as Area2D;
-		area_2d.AreaEntered += (Area2D area) => OnArea2DAreaEntered(area);
+		area_2D = GetNode("%Area2D") as Area2D;
+		area_2D.AreaEntered += (Area2D area) => OnArea2DAreaEntered(area);
 	}
 
 	public void OnArea2DAreaEntered(Area2D area)

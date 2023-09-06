@@ -4,8 +4,10 @@ using System;
 public partial class EnemyManager : Node
 {
 	const float SPAWN_RADIUS = 375.0F; // Half of viewport width + number of pixels to spawn off-screen
+
 	[Export]
-	public PackedScene BasicEnemyScene;
+	public PackedScene basicEnemyScene;
+
 	private Timer timer;
 
 	// Called when the node enters the scene tree for the first time.
@@ -28,7 +30,7 @@ public partial class EnemyManager : Node
 		var randomDirection = Vector2.Right.Rotated((float)GD.RandRange(0, Math.Tau));
 		var spawnPosition = player.GlobalPosition + (randomDirection * SPAWN_RADIUS);
 
-		var enemy = BasicEnemyScene.Instantiate() as Node2D;
+		var enemy = basicEnemyScene.Instantiate() as Node2D;
 		GetParent().AddChild(enemy);
 		enemy.GlobalPosition = spawnPosition;
 	}
