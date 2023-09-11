@@ -64,7 +64,9 @@ public partial class SwordAbilityController : Node
 		enemies.AddRange(enemiesSwap);
 
 		swordAbilityInstance = swordAbilityScene.Instantiate() as SwordAbility;
-		player.GetParent().AddChild(swordAbilityInstance);
+
+		var foregroundLayer = GetTree().GetFirstNodeInGroup("foreground_layer") as Node2D;
+		foregroundLayer.AddChild(swordAbilityInstance);
 		swordAbilityInstance.Hitbox.Damage = damage;
 		swordAbilityInstance.GlobalPosition = enemies[0].GlobalPosition;
 

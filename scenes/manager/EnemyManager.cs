@@ -31,7 +31,9 @@ public partial class EnemyManager : Node
 		var spawnPosition = player.GlobalPosition + (randomDirection * SPAWN_RADIUS);
 
 		var enemy = basicEnemyScene.Instantiate() as Node2D;
-		GetParent().AddChild(enemy);
+
+		var entitiesLayer = GetTree().GetFirstNodeInGroup("entities_layer") as Node2D;
+		entitiesLayer.CallDeferred("add_child", enemy);
 		enemy.GlobalPosition = spawnPosition;
 	}
 }
