@@ -11,7 +11,7 @@ public partial class Player : CharacterBody2D
 	private Area2D collisionArea2D;
 	private int numberOfCollidingBodies = 0;
 	private Timer damageIntervalTimer;
-	private HealthComponent healthComponent;
+	public HealthComponent healthComponent;
 	private ProgressBar healthBar;
 
     public override void _Ready()

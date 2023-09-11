@@ -4,7 +4,7 @@ using System;
 public partial class ArenaTimeManager : Node
 {
 	[Export]
-	public PackedScene victoryScreenScene;
+	public PackedScene endScreenScene;
 
 	private Timer timer;
 
@@ -21,7 +21,7 @@ public partial class ArenaTimeManager : Node
 
 	public void OnTimerTimeout()
 	{
-		var victoryScreenInstance = victoryScreenScene.Instantiate();
-		AddChild(victoryScreenInstance);
+		var endScreenInstance = endScreenScene.Instantiate();
+		AddChild(endScreenInstance);
 	}
 }
