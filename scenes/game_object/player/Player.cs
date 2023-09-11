@@ -8,8 +8,24 @@ public partial class Player : CharacterBody2D
 	[Export]
 	public float accelerationSmoothing = 25.0F;
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	private Area2D collisionArea2D;
+	private int numberOfCollidingBodies = 0;
+	private Timer damageIntervalTimer;
+
+    public override void _Ready()
+    {
+        base._Ready();
+
+		collisionArea2D = GetNode("CollisionArea2D") as Area2D;
+		collisionArea2D.BodyEntered += (Node2D body) => OnBodyEntered(body);
+		collisionArea2D.BodyExited += (Node2D body) => OnBodyExited(body);
+
+		damageIntervalTimer = GetNode("DamageIntervalTimer") as Timer;
+		damageIntervalTimer.Timeout += () => OnDamageIntervalTimerTimeout();
+    }
+
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
 	{
 		var movementVector = GetMovementVector();
 
@@ -20,6 +36,20 @@ public partial class Player : CharacterBody2D
 		MoveAndSlide();
 	}
 
+	public void CheckIfDamageDealt()
+	{
+		if (numberOfCollidingBodies == 0 || !(damageIntervalTimer.IsStopped()))
+		{
+			return;
+		}
+
+		var healthComponent = GetNode("HealthComponent") as HealthComponent;
+
+		healthComponent.Damage(1); // Magic number
+		GD.Print(healthComponent.currentHealth); // Debug message
+		damageIntervalTimer.Start();
+	}
+
 	public Vector2 GetMovementVector()
 	{
 		var movementVector = Vector2.Zero;
@@ -28,5 +58,21 @@ public partial class Player : CharacterBody2D
 		movementVector.Y = Input.GetAxis("move_up", "move_down");
 
 		return movementVector.Normalized();
+	}
+
+	public void OnBodyEntered(Node2D body)
+	{
+		numberOfCollidingBodies += 1;
+		CheckIfDamageDealt();
+	}
+
+	public void OnBodyExited(Node2D body)
+	{
+		numberOfCollidingBodies -= 1;
+	}
+
+	public void OnDamageIntervalTimerTimeout()
+	{
+		CheckIfDamageDealt();
 	}
 }

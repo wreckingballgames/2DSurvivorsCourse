@@ -9,7 +9,7 @@ public partial class HealthComponent : Node
 	[Export]
 	public float maxHealth = 10.0F;
 	
-	private float currentHealth;
+	public float currentHealth;
 
 	public override void _Ready()
 	{
