@@ -5,6 +5,8 @@ public partial class HealthComponent : Node
 {
 	[Signal]
 	public delegate void DiedEventHandler();
+	[Signal]
+	public delegate void HealthChangedEventHandler();
 
 	[Export]
 	public float maxHealth = 10.0F;
@@ -19,7 +21,17 @@ public partial class HealthComponent : Node
 	public void Damage(float damage)
 	{
 		currentHealth = Mathf.Max(currentHealth - damage, 0);
+		EmitSignal(SignalName.HealthChanged);
 		Callable.From(() => CheckDeath()).CallDeferred(); // Making callables from methods this way is very useful
+	}
+
+	public float GetHealthPercent()
+	{
+		if (maxHealth <= 0)
+		{
+			return 0;
+		}
+		return Mathf.Min(currentHealth / maxHealth, 1);
 	}
 
 	public void CheckDeath()

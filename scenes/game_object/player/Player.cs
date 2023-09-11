@@ -11,6 +11,8 @@ public partial class Player : CharacterBody2D
 	private Area2D collisionArea2D;
 	private int numberOfCollidingBodies = 0;
 	private Timer damageIntervalTimer;
+	private HealthComponent healthComponent;
+	private ProgressBar healthBar;
 
     public override void _Ready()
     {
@@ -22,6 +24,12 @@ public partial class Player : CharacterBody2D
 
 		damageIntervalTimer = GetNode("DamageIntervalTimer") as Timer;
 		damageIntervalTimer.Timeout += () => OnDamageIntervalTimerTimeout();
+
+		healthComponent = GetNode("HealthComponent") as HealthComponent;
+		healthComponent.HealthChanged += () => OnHealthChanged();
+
+		healthBar = GetNode("%HealthBar") as ProgressBar;
+		UpdateHealthDisplay();
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -43,11 +51,14 @@ public partial class Player : CharacterBody2D
 			return;
 		}
 
-		var healthComponent = GetNode("HealthComponent") as HealthComponent;
-
 		healthComponent.Damage(1); // Magic number
 		GD.Print(healthComponent.currentHealth); // Debug message
 		damageIntervalTimer.Start();
+	}
+
+	public void UpdateHealthDisplay()
+	{
+		healthBar.Value = healthComponent.GetHealthPercent();
 	}
 
 	public Vector2 GetMovementVector()
@@ -74,5 +85,10 @@ public partial class Player : CharacterBody2D
 	public void OnDamageIntervalTimerTimeout()
 	{
 		CheckIfDamageDealt();
+	}
+
+	public void OnHealthChanged()
+	{
+		UpdateHealthDisplay();
 	}
 }
