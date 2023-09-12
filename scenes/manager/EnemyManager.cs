@@ -7,19 +7,27 @@ public partial class EnemyManager : Node
 
 	[Export]
 	public PackedScene basicEnemyScene;
+	[Export]
+	public ArenaTimeManager arenaTimeManager;
 
 	private Timer timer;
+	private double baseSpawnTime = 0;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		timer = GetNode("%Timer") as Timer;
+		baseSpawnTime = timer.WaitTime;
 
 		timer.Timeout += () => OnTimerTimeout();
+
+		arenaTimeManager.ArenaDifficultyIncreased += (int arenaDifficulty) => OnArenaDifficultyIncreased(arenaDifficulty);
 	}
 
 	public void OnTimerTimeout()
 	{
+		timer.Start();
+
 		var player = GetTree().GetFirstNodeInGroup("player") as Node2D;
 		if (player == null)
 		{
@@ -35,5 +43,13 @@ public partial class EnemyManager : Node
 		var entitiesLayer = GetTree().GetFirstNodeInGroup("entities_layer") as Node2D;
 		entitiesLayer.CallDeferred("add_child", enemy);
 		enemy.GlobalPosition = spawnPosition;
+	}
+
+	public void OnArenaDifficultyIncreased(int arenaDifficulty)
+	{
+		var timeOff = (.1 / 12) * arenaDifficulty;
+		timeOff = Mathf.Min(timeOff, .7);
+		GD.Print(timeOff);
+		timer.WaitTime = baseSpawnTime - timeOff;
 	}
 }

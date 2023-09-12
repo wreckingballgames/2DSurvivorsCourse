@@ -9,4 +9,5 @@ basicEnemyScene = ExtResource("2_iibje")
 
 [node name="Timer" type="Timer" parent="."]
 unique_name_in_owner = true
+one_shot = true
 autostart = true
